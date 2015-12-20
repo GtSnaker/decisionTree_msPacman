@@ -12,53 +12,49 @@ public class DataTuple {
 		VERY_LOW, LOW, MEDIUM, HIGH, VERY_HIGH, NONE;
 
 		public static DiscreteTag DiscretizeDouble(double aux) {
-			if (aux < 0.1)
-				return DiscreteTag.VERY_LOW;
-			else if (aux <= 0.3)
-				return DiscreteTag.LOW;
-			else if (aux <= 0.5)
-				return DiscreteTag.MEDIUM;
-			else if (aux <= 0.7)
-				return DiscreteTag.HIGH;
-			else
-				return DiscreteTag.VERY_HIGH;
+			if (aux < 0.1) return DiscreteTag.VERY_LOW;
+			else if (aux <= 0.3) return DiscreteTag.LOW;
+			else if (aux <= 0.5) return DiscreteTag.MEDIUM;
+			else if (aux <= 0.7) return DiscreteTag.HIGH;
+			else return DiscreteTag.VERY_HIGH;
 		}
 	}
 
-	public MOVE DirectionChosen;
+	public MOVE		DirectionChosen;
 
 	// General game state this - not normalized!
-	public int mazeIndex;
-	public int currentLevel;
-	public int pacmanPosition;
-	public int pacmanLivesLeft;
-	public int currentScore;
-	public int totalGameTime;
-	public int currentLevelTime;
-	public int numOfPillsLeft;
-	public int numOfPowerPillsLeft;
+	public int		mazeIndex;
+	public int		currentLevel;
+	public int		pacmanPosition;
+	public int		pacmanLivesLeft;
+	public int		currentScore;
+	public int		totalGameTime;
+	public int		currentLevelTime;
+	public int		numOfPillsLeft;
+	public int		numOfPowerPillsLeft;
 
 	// Ghost this, dir, dist, edible - BLINKY, INKY, PINKY, SUE
-	public boolean isBlinkyEdible = false;
-	public boolean isInkyEdible = false;
-	public boolean isPinkyEdible = false;
-	public boolean isSueEdible = false;
+	public boolean	isBlinkyEdible	= false;
+	public boolean	isInkyEdible	= false;
+	public boolean	isPinkyEdible	= false;
+	public boolean	isSueEdible		= false;
 
-	public int blinkyDist = -1;
-	public int inkyDist = -1;
-	public int pinkyDist = -1;
-	public int sueDist = -1;
+	public int		blinkyDist		= -1;
+	public int		inkyDist		= -1;
+	public int		pinkyDist		= -1;
+	public int		sueDist			= -1;
 
-	public MOVE blinkyDir;
-	public MOVE inkyDir;
-	public MOVE pinkyDir;
-	public MOVE sueDir;
+	public MOVE		blinkyDir;
+	public MOVE		inkyDir;
+	public MOVE		pinkyDir;
+	public MOVE		sueDir;
 
 	// Util data - useful for normalization
-	public int numberOfNodesInLevel;
-	public int numberOfTotalPillsInLevel;
-	public int numberOfTotalPowerPillsInLevel;
-	private int maximumDistance = 150;
+	public int		numberOfNodesInLevel;
+	public int		numberOfTotalPillsInLevel;
+	public int		numberOfTotalPowerPillsInLevel;
+
+	private int		maximumDistance	= 150;
 
 	public DataTuple(Game game, MOVE move) {
 		if (move == MOVE.NEUTRAL) {
@@ -79,28 +75,36 @@ public class DataTuple {
 
 		if (game.getGhostLairTime(GHOST.BLINKY) == 0) {
 			this.isBlinkyEdible = game.isGhostEdible(GHOST.BLINKY);
-			this.blinkyDist = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(GHOST.BLINKY));
+			this.blinkyDist = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(),
+					game.getGhostCurrentNodeIndex(GHOST.BLINKY));
 		}
 
 		if (game.getGhostLairTime(GHOST.INKY) == 0) {
 			this.isInkyEdible = game.isGhostEdible(GHOST.INKY);
-			this.inkyDist = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(GHOST.INKY));
+			this.inkyDist = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(),
+					game.getGhostCurrentNodeIndex(GHOST.INKY));
 		}
 
 		if (game.getGhostLairTime(GHOST.PINKY) == 0) {
 			this.isPinkyEdible = game.isGhostEdible(GHOST.PINKY);
-			this.pinkyDist = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(GHOST.PINKY));
+			this.pinkyDist = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(),
+					game.getGhostCurrentNodeIndex(GHOST.PINKY));
 		}
 
 		if (game.getGhostLairTime(GHOST.SUE) == 0) {
 			this.isSueEdible = game.isGhostEdible(GHOST.SUE);
-			this.sueDist = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(GHOST.SUE));
+			this.sueDist = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(),
+					game.getGhostCurrentNodeIndex(GHOST.SUE));
 		}
 
-		this.blinkyDir = game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(GHOST.BLINKY), DM.PATH);
-		this.inkyDir = game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(GHOST.INKY), DM.PATH);
-		this.pinkyDir = game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(GHOST.PINKY), DM.PATH);
-		this.sueDir = game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(GHOST.SUE), DM.PATH);
+		this.blinkyDir = game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(),
+				game.getGhostCurrentNodeIndex(GHOST.BLINKY), DM.PATH);
+		this.inkyDir = game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(),
+				game.getGhostCurrentNodeIndex(GHOST.INKY), DM.PATH);
+		this.pinkyDir = game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(),
+				game.getGhostCurrentNodeIndex(GHOST.PINKY), DM.PATH);
+		this.sueDir = game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(),
+				game.getGhostCurrentNodeIndex(GHOST.SUE), DM.PATH);
 
 		this.numberOfNodesInLevel = game.getNumberOfNodes();
 		this.numberOfTotalPillsInLevel = game.getNumberOfPills();
@@ -184,8 +188,7 @@ public class DataTuple {
 	}
 
 	public DiscreteTag discretizeDistance(int dist) {
-		if (dist == -1)
-			return DiscreteTag.NONE;
+		if (dist == -1) return DiscreteTag.NONE;
 		double aux = this.normalizeDistance(dist);
 		return DiscreteTag.DiscretizeDouble(aux);
 	}
@@ -264,4 +267,87 @@ public class DataTuple {
 		return DiscreteTag.DiscretizeDouble(aux);
 	}
 
+	public String getAttribute(String attr) {
+		String res = null;
+
+		switch (attr) {
+			case ("DirectionChosen"):
+				res = DirectionChosen.toString();
+				break;
+			case ("mazeIndex"):
+				res = Integer.toString(mazeIndex);
+				break;
+			case ("currentLevel"):
+				res = Integer.toString(currentLevel);
+				break;
+			case ("pacmanPosition"):
+				res = discretizePosition(pacmanPosition).toString();
+				break;
+			case ("pacmanLivesLeft"):
+				res = Integer.toString(pacmanLivesLeft);
+				break;
+			case ("currentScore"):
+				res = Double.toString(normalizeCurrentScore(currentScore));
+				break;
+			case ("totalGameTime"):
+				res = discretizeTotalGameTime(totalGameTime).toString();
+				break;
+			case ("currentLevelTime"):
+				res = discretizeCurrentLevelTime(currentLevelTime).toString();
+				break;
+			case ("numOfPillsLeft"):
+				res = discretizeNumberOfPills(numOfPillsLeft).toString();
+				break;
+			case ("numOfPowerPillsLeft"):
+				res = discretizeNumberOfPowerPills(numOfPowerPillsLeft).toString();
+				break;
+			case ("isBlinkyEdible"):
+				res = Double.toString(normalizeBoolean(isBlinkyEdible));
+				break;
+			case ("isInkyEdible"):
+				double d = normalizeBoolean(isInkyEdible);
+				res = Double.toString(d);
+				break;
+			case ("isPinkyEdible"):
+				res = Double.toString(normalizeBoolean(isPinkyEdible));
+				break;
+			case ("isSueEdible"):
+				res = Double.toString(normalizeBoolean(isSueEdible));
+				break;
+			case ("blinkyDist"):
+				res = discretizeDistance(blinkyDist).toString();
+				break;
+			case ("inkyDist"):
+				res = discretizeDistance(inkyDist).toString();
+				break;
+			case ("pinkyDist"):
+				res = discretizeDistance(pinkyDist).toString();
+				break;
+			case ("sueDist"):
+				res = discretizeDistance(sueDist).toString();
+				break;
+			case ("blinkyDir"):
+				res = blinkyDir.toString();
+				break;
+			case ("inkyDir"):
+				res = inkyDir.toString();
+				break;
+			case ("pinkyDir"):
+				res = pinkyDir.toString();
+				break;
+			case ("sueDir"):
+				res = sueDir.toString();
+				break;
+			case ("numberOfNodesInLevel"):
+				res = Integer.toString(numberOfNodesInLevel);
+				break;
+			case ("numberOfTotalPillsInLevel"):
+				res = Integer.toString(numberOfTotalPillsInLevel);
+				break;
+			case ("numberOfTotalPowerPillsInLevel"):
+				res = Integer.toString(numberOfTotalPowerPillsInLevel);
+				break;
+		}
+		return res;
+	}
 }

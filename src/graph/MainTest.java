@@ -2,13 +2,12 @@ package graph;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import decisiontree.*;
 
 public class MainTest {
 
-
+	@SuppressWarnings("unused")
 	private SimpleNode createTree() {
 		SimpleNode root = new SimpleNode("Temperature", true);
 		SimpleNode uno_uno = new SimpleNode("Humidity");
@@ -32,22 +31,10 @@ public class MainTest {
 	}
 
 	public static void main(String args[]) throws IOException {
-
-//		MainTest mt = new MainTest();
-//		TreeConverter tc = new TreeConverter();
-//		tc.tree2graph(mt.createTree()).display();
-		
 		DecisionTree dt = new DecisionTree();
-//		dt.printAttrs();
-
-		ArrayList<ArrayList<String>> lala = dt.discretizeData(dt.parseData(dt.loadData()));
-		
-		for (ArrayList<String> arrayList : lala) {
-			for (String string : arrayList) {
-				System.out.println(string);
-			}
-			System.out.println("\n");
-		}
+		dt.build();
+		TreeConverter tc = new TreeConverter();
+		tc.tree2graph(dt.root).display();
 	}
-	
+
 }
