@@ -3,10 +3,12 @@ package decisiontree;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 import dataRecording.DataSaverLoader;
 import dataRecording.DataTuple;
 import graph.SimpleNode;
+import graph.TreeConverter;
 import pacman.controllers.Controller;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
@@ -196,11 +198,32 @@ public class DecisionTree extends Controller<MOVE> {
 		}
 		return res;
 	}
+	
+	public void pintar(){
+		TreeConverter tc = new TreeConverter();
+		tc.tree2graph(root).display();
+	}
 
+	public MOVE buscarRecursivo(SimpleNode simpleNode, DataTuple game){
+		MOVE move = null;
+		if(simpleNode.isLeaf()) move = MOVE.valueOf(simpleNode.getName());
+		else {			
+			String valueNode = game.getAttribute(simpleNode.getName());
+			TreeMap tree = simpleNode.getChildren();
+			SimpleNode nextNode = (SimpleNode) tree.get(valueNode);
+			move = buscarRecursivo(nextNode, game);
+		}
+		return move;	
+	}
+	
+	public MOVE buscar(Game game){
+		DataTuple actualGame = new DataTuple(game, null);
+		return buscarRecursivo(root, actualGame);
+	}
+	
 	@Override
 	public MOVE getMove(Game game, long timeDue) {
-		// TODO devolver MOVE en funcion de el arbol generado con build
-		return null;
+		return buscar(game);
 	}
 
 }

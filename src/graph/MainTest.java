@@ -33,8 +33,9 @@ public class MainTest {
 	public static void main(String args[]) throws IOException {
 		DecisionTree dt = new DecisionTree();
 		dt.build();
-		TreeConverter tc = new TreeConverter();
-		tc.tree2graph(dt.root).display();
+		//TreeConverter tc = new TreeConverter();
+		//tc.tree2graph(dt.root).display();
+		dt.getMove();
 	}
 
 }
